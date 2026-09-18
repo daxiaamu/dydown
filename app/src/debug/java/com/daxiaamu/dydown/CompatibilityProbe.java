@@ -68,10 +68,20 @@ public final class CompatibilityProbe {
         ModelFields.set(original, "url_list", Arrays.asList("https://example.invalid/original.mp4"));
         ModelFields.set(video, "download_addr", original);
         check(DownloadPolicy.prepare(aweme) && ModelFields.get(video, "download_addr") == original, "preserve existing native download URL");
+        ModelFields.set(aweme, "aid", "sample_123");
+        Object h264 = create(loader, prefix + "VideoUrlModel");
+        ModelFields.set(h264, "url_list", Arrays.asList("file:///invalid", "https://example.invalid/h264.mp4", "https://example.invalid/h264.mp4"));
+        ModelFields.set(video, "play_addr_h264", h264);
+        VideoSource snapshot = VideoSource.from(aweme);
+        check(snapshot != null && snapshot.id.equals("sample_123"), "snapshot selects the requested item");
+        check(snapshot.urls.size() == 3, "snapshot deduplicates and rejects non-HTTP addresses");
+        check(snapshot.urls.get(0).endsWith("h264.mp4"), "snapshot prioritizes compatible playback address");
+        ModelFields.set(h264, "url_list", Arrays.asList("https://example.invalid/changed.mp4"));
+        check(snapshot.urls.get(0).endsWith("h264.mp4"), "snapshot is independent from later model changes");
         ModelFields.set(aweme, "aweme_type", 68);
-        check(!DownloadPolicy.prepare(aweme), "image posts excluded");
+        check(!DownloadPolicy.prepare(aweme) && VideoSource.from(aweme) == null, "image posts excluded");
         ModelFields.set(aweme, "aweme_type", 101);
-        check(!DownloadPolicy.prepare(aweme), "live streams excluded");
+        check(!DownloadPolicy.prepare(aweme) && VideoSource.from(aweme) == null, "live streams excluded");
         System.out.println("ALL COMPATIBILITY CHECKS PASSED");
     }
 }
