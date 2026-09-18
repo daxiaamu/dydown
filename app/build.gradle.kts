@@ -7,8 +7,8 @@ android {
         applicationId = "com.daxiaamu.dydown"
         minSdk = 29
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.4.0"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -16,6 +16,7 @@ android {
     }
 }
 dependencies {
+    implementation("org.luckypray:dexkit:2.2.0")
     compileOnly("io.github.libxposed:api:102.0.0")
     implementation("io.github.libxposed:service:102.0.0")
 }

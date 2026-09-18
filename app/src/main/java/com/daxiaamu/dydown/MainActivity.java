@@ -28,7 +28,7 @@ public final class MainActivity extends Activity {
         retry.setOnClickListener(v -> module.synchronizeScope()); layout.addView(retry);
         TextView body = new TextView(this); body.setTextSize(17); body.setTextColor(Color.rgb(65, 65, 70));
         body.setLineSpacing(10, 1); body.setPadding(0, pad, 0, 0);
-        body.setText("版本 0.3.0 · API 102\n适配版本：40.5.0（400501）\n\n视频范围：当前账号可正常播放，且具备有效 HTTP(S) 视频地址的普通视频。\n\n不覆盖图集、直播、无法播放或已失效的内容；不处理 DRM 加密。不承诺无水印，其他版本尚未验证。");
+        body.setText("版本 0.4.0 · API 102\n适配版本：40.5.0（400501）\n\n视频范围：当前账号可正常播放，且具备有效 HTTP(S) 视频地址的普通视频。\n\n不覆盖图集、直播、无法播放或已失效的内容；不处理 DRM 加密。不承诺无水印，其他版本尚未验证。");
         android.widget.ScrollView scroll = new android.widget.ScrollView(this); scroll.addView(body); layout.addView(scroll);
         setContentView(layout);
     }
